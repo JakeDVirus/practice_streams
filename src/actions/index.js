@@ -1,8 +1,10 @@
-import { AUTH_CHANGE } from "./actionTypes";
+import { SIGN_IN, SIGN_OUT } from "./actionTypes";
 
-export const authChange = (auth) => {
+export const signIn = (id) => {
   return { 
-    type: AUTH_CHANGE, 
-    payload: auth
+    type: SIGN_IN, 
+    payload: {userId: id}
   }
 };
+
+export const signOut = () => ({type: SIGN_OUT});

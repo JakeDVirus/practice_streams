@@ -4,23 +4,22 @@ import { connect } from "react-redux";
 import classes from './GoogleAuth.module.css'
 import { Button } from '@material-ui/core';
 
-import { authChange } from "../actions/index";
+import { signIn, signOut } from "../actions/index";
 
-const GoogleAuth = ({authStatusss, onAuthChange}) => {
+const GoogleAuth = ({authStatusss, onSignIn, onSignOut}) => {
+
   const onSignInClick = () => {
     window.gapi.auth2.getAuthInstance().signIn()
       .then(() => {
-        const authStatus = window.gapi.auth2.getAuthInstance().isSignedIn.get();
-        onAuthChange(authStatus)
+        const userId = window.gapi.auth2.getAuthInstance().currentUser.get().getId();
+        onSignIn(userId)
       });
-    
   }
 
   const onSignOutClick = () => {
     window.gapi.auth2.getAuthInstance().signOut()
     .then(() => {
-      const authStatus = window.gapi.auth2.getAuthInstance().isSignedIn.get();
-      onAuthChange(authStatus)
+      onSignOut();
     });
   }
 
@@ -35,9 +34,15 @@ const GoogleAuth = ({authStatusss, onAuthChange}) => {
         window.gapi.auth2.init({
           client_id: '501650894583-ktqu1ssvcmoq11g6ln4biesthpq7cu4r.apps.googleusercontent.com',
           scope: 'email'
-        }).then(() => {
-          const authStatus = window.gapi.auth2.getAuthInstance().isSignedIn.get();
-          onAuthChange(authStatus);
+        }).then( async() => {
+          const authStatus = await window.gapi.auth2.getAuthInstance().isSignedIn.get();
+          let userId = null;
+          if(authStatus){
+            userId = await window.gapi.auth2.getAuthInstance().currentUser.get().getId();
+            onSignIn(userId);
+          } else {
+            onSignOut();
+          };
         });
       })
     };
@@ -56,7 +61,7 @@ const GoogleAuth = ({authStatusss, onAuthChange}) => {
     };
 
     insertGapiScript()
-  }, [onAuthChange]);  
+  }, [onSignIn, onSignOut]);  
 
   const renderedAuthButton = (() => {
     switch (authStatusss) {
@@ -88,7 +93,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onAuthChange: (auth) => dispatch(authChange(auth))
+  onSignIn: (id) => dispatch(signIn(id)),
+  onSignOut: () => dispatch(signOut())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoogleAuth);
