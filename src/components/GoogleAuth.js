@@ -34,11 +34,11 @@ const GoogleAuth = ({authStatusss, onSignIn, onSignOut}) => {
         window.gapi.auth2.init({
           client_id: '501650894583-ktqu1ssvcmoq11g6ln4biesthpq7cu4r.apps.googleusercontent.com',
           scope: 'email'
-        }).then( async() => {
-          const authStatus = await window.gapi.auth2.getAuthInstance().isSignedIn.get();
+        }).then( () => {
+          const authStatus = window.gapi.auth2.getAuthInstance().isSignedIn.get();
           let userId = null;
           if(authStatus){
-            userId = await window.gapi.auth2.getAuthInstance().currentUser.get().getId();
+            userId = window.gapi.auth2.getAuthInstance().currentUser.get().getId();
             onSignIn(userId);
           } else {
             onSignOut();
