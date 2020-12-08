@@ -13,6 +13,9 @@ import MailIcon from "@material-ui/icons/Mail";
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+//IMPORT-- Exclusive addition requirement
+import GoogleAuth from '../GoogleAuth';
+
 const useStyles = makeStyles((theme) => ({
   list: {
     width: 250
@@ -81,6 +84,7 @@ export default function TemporaryDrawer({ anchor, selectedNavItems, selectedAuth
       <List>
         {selectedNavItems && navArrayToRenderedList_withRouter(selectedNavItems)}
         {selectedAuthNavItems && navArrayToRenderedList_withoutRouter(selectedAuthNavItems)}
+        <GoogleAuth />
       </List>
     </div>
   );
