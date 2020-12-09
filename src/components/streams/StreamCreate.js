@@ -14,43 +14,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//******* COMPONENT STARTS HERE ********/
-const StreamCreate = () => {
-  const classes = useStyles();
 
-  const renderInput = (formProps) => {
-    return (
-      <div className="field">
-        <input {...formProps.input}/>
-      </div>
-    )
-  }
-
-  const renderedBasicInputFiled = (formProps) => ( 
+const renderedBasicInputField = (formProps) => {
+  return ( 
     <TextField 
       id="outlined-basic" 
       label="Enter Text" 
-      variant="outlined" 
-      {...formProps.input}
+      variant="outlined"
+      value={formProps.input.value}
+      onChange={formProps.input.onChange}
     /> 
-  );
+  )
+};
 
-  const renderedMultilineField = (formProps) => (
-    <TextField id="outlined-multiline-static" 
-      label="Enter Description" 
-      multiline
-      rows={4}
-      variant="outlined" 
-      {...formProps.input}
-    /> 
-  );
+const renderedMultilineField = (formProps) => (
+  <TextField id="outlined-multiline-static" 
+    label="Enter Description" 
+    multiline
+    rows={4}
+    variant="outlined" 
+    {...formProps.input}
+  /> 
+);
+
+
+//******* COMPONENT STARTS HERE ********/
+const StreamCreate = () => {
+  const classes = useStyles();
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div>
         <Field 
           name="title" 
-          component={renderedBasicInputFiled}
+          component={renderedBasicInputField}
         />
       </div>
       <div>
