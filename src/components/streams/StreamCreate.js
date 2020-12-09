@@ -1,15 +1,63 @@
 import React from 'react';
 import { Field, reduxForm } from "redux-form";
 
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
+
+//******* COMPONENT STARTS HERE ********/
 const StreamCreate = () => {
+  const classes = useStyles();
+
   const renderInput = (formProps) => {
-    return <input {...formProps.input}/>
+    return (
+      <div className="field">
+        <input {...formProps.input}/>
+      </div>
+    )
   }
 
+  const renderedBasicInputFiled = (formProps) => ( 
+    <TextField 
+      id="outlined-basic" 
+      label="Enter Text" 
+      variant="outlined" 
+      {...formProps.input}
+    /> 
+  );
+
+  const renderedMultilineField = (formProps) => (
+    <TextField id="outlined-multiline-static" 
+      label="Enter Description" 
+      multiline
+      rows={4}
+      variant="outlined" 
+      {...formProps.input}
+    /> 
+  );
+
   return (
-    <form>
-      <Field name="title" component={renderInput} />
-      <Field name="description" component={renderInput} />
+    <form className={classes.root} noValidate autoComplete="off">
+      <div>
+        <Field 
+          name="title" 
+          component={renderedBasicInputFiled}
+        />
+      </div>
+      <div>
+        <Field 
+          name="description" 
+          component={renderedMultilineField}/>
+      </div>
     </form>
   );
 };
