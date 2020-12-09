@@ -1,9 +1,25 @@
 import React from 'react';
+import { Field, reduxForm } from "redux-form";
 
 const StreamCreate = () => {
+  const renderInput = (formProps) => {
+    return <input {...formProps.input}/>
+  }
+
   return (
-    <h1>StreamCreate</h1>
+    <form>
+      <Field name="title" component={renderInput} />
+      <Field name="description" component={renderInput} />
+    </form>
   );
 };
 
-export default StreamCreate;
+export default reduxForm({
+  form: "streamCreate"
+})(StreamCreate);
+
+
+//react hook form
+//react final form
+// redux form
+//formik and yup
