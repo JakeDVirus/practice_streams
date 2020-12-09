@@ -44,17 +44,8 @@ const StreamCreate = () => {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <div>
-        <Field 
-          name="title" 
-          component={renderedBasicInputField}
-        />
-      </div>
-      <div>
-        <Field 
-          name="description" 
-          component={renderedMultilineField}/>
-      </div>
+        <Field name="title" component={renderedBasicInputField} />
+        <Field name="description" component={renderedMultilineField}/>
     </form>
   );
 };
