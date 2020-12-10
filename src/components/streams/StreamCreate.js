@@ -3,11 +3,12 @@ import { Field, reduxForm } from "redux-form";
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button'
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
+    '& > *': {
       margin: theme.spacing(1),
       width: '25ch',
     },
@@ -15,43 +16,78 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const renderedBasicInputField = (formProps) => {
+const renderedBasicInputField = ({
+  input, 
+  meta: { error, invalid, touched }
+}) => {
   return ( 
     <TextField 
       id="outlined-basic" 
-      label="Enter Text" 
+      error={touched && invalid}
+      helperText={touched && error}
+      label="Name" 
       variant="outlined"
-      value={formProps.input.value}
-      onChange={formProps.input.onChange}
+      {...input}
     /> 
   )
 };
 
-const renderedMultilineField = (formProps) => (
-  <TextField id="outlined-multiline-static" 
-    label="Enter Description" 
-    multiline
-    rows={4}
-    variant="outlined" 
-    {...formProps.input}
-  /> 
-);
+const renderedMultilineField = ({
+  input, 
+  meta: {error, invalid, touched}
+}) => {
+  return (
+    <TextField 
+      {...input}
+      id="outlined-multiline-static" 
+      label="Description" 
+      multiline
+      rows={5}
+      variant="outlined" 
+      error = {touched && invalid}
+      helperText={touched && error}
+    /> 
+  )
+};
 
 
 //******* COMPONENT STARTS HERE ********/
-const StreamCreate = () => {
+const StreamCreate = (props) => {
+  const {handleSubmit, pristine, reset, submitting} = props;
   const classes = useStyles();
 
+  const onFormSubmit = (formValues) => {
+    console.log(formValues)
+  };
+
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-        <Field name="title" component={renderedBasicInputField} />
-        <Field name="description" component={renderedMultilineField}/>
+    <form 
+      className={classes.root} 
+      noValidate 
+      autoComplete="off"
+      onSubmit={handleSubmit(onFormSubmit)}
+    >
+        <Field name="title" component={renderedBasicInputField} /><br />
+        <Field name="description" component={renderedMultilineField}/><br/>
+        <Button variant="contained" color="primary" type="submit">Submit</Button>
     </form>
   );
 };
 
+const validate = (formValues) => {
+  const errors= {};
+  if (!formValues.title) {
+    errors.title = "You must enter a title"; 
+  }
+  if (!formValues.description) {
+    errors.description = "You must enter a description";
+  }
+  return errors;
+}
+
 export default reduxForm({
-  form: "streamCreate"
+  form: "streamCreate",
+  validate: validate
 })(StreamCreate);
 
 
