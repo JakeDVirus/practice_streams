@@ -102,14 +102,20 @@ const MenuAppBar = ({ navList, drawerAnchor, auth=true }) => {
           <GoogleAuth />
         </div>
 
+  const renderedLogo = (
+    <Typography variant="h6" className={classes.title}>
+      <RouterLink to={navList.home.url} style={{color: "inherit", textDecoration: "none"}}>
+        Logo
+      </RouterLink>
+    </Typography>
+  )
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Container maxWidth="xl" style={{padding: "0"}}>
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              Logo
-            </Typography>
+            {renderedLogo}
             {renderedNavItems}
           </Toolbar>
         </Container>

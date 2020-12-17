@@ -25,7 +25,8 @@ const navList = {
         {title: "authOnLogout1", url: "url1"},
         {title: "authOnLogout2", url: "url2"},
       ]
-    }
+    },
+    home: {title: "home", url: "/"}
 }
 
 /******************************************************

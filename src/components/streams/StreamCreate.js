@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
+
+import { createStream } from "../../actions/index";
 
 
 const useStyles = makeStyles(theme => ({
@@ -19,7 +22,6 @@ const useStyles = makeStyles(theme => ({
 const renderTextField = (fieldProps) => {
   const {input, multiline, rows} = fieldProps;
   const {invalid, touched, error} = fieldProps.meta;
-  console.log("fieldProps", fieldProps);
   return (
     <TextField 
     variant="outlined"
@@ -32,17 +34,24 @@ const renderTextField = (fieldProps) => {
     />
   )
 }
+/*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxx                                        xxxxxxxxxxxx
+xxxxxxxxxx         REACT COMPONENT                xxxxxxxxxxxx
+xxxxxxxxxx                                        xxxxxxxxxxxx
+xxxxxxxxxx         (STARTS HERE)                  xxxxxxxxxxxx
+xxxxxxxxxx                                        xxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 
-//*********** COMPONENT STARTS HERE **************/
 
 const StreamCreate = (props) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, createStream } = props;
   const classes = useStyles();
 
   const onFormSubmit = (formValue) => {
-    console.log("submit", formValue);
+    createStream(formValue);
   }
-  console.log("formProps", props);
 
   return (
     <form className={classes.root} onSubmit={handleSubmit(onFormSubmit)}>
@@ -59,6 +68,12 @@ const StreamCreate = (props) => {
   )
 }
 
+/****************************************************
+*********        REACT COMPONENT      ***************
+*********        ENDS HERE            ***************
+*****************************************************/
+
+
 const validate = (formValues) => {
   const errors = {};
   if(!formValues.title) {
@@ -70,7 +85,15 @@ const validate = (formValues) => {
   return errors;
 }
 
-export default reduxForm({
+
+
+const formWrapped = reduxForm({
   form: "streamCreate",
   validate: validate
 })(StreamCreate);
+
+// const mapDispatchToProps = dispatch => ({
+//   createStream: () => dispatch(createStream)
+// })
+
+export default connect(null, {createStream})(formWrapped);
