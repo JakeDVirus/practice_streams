@@ -12,7 +12,8 @@ const GoogleAuth = ({authStatusss, onSignIn, onSignOut}) => {
     window.gapi.auth2.getAuthInstance().signIn()
       .then(() => {
         const userId = window.gapi.auth2.getAuthInstance().currentUser.get().getId();
-        onSignIn(userId)
+        const userName = window.gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName();
+        onSignIn(userId, userName);
       });
   }
 
@@ -37,9 +38,11 @@ const GoogleAuth = ({authStatusss, onSignIn, onSignOut}) => {
         }).then( () => {
           const authStatus = window.gapi.auth2.getAuthInstance().isSignedIn.get();
           let userId = null;
+          let userName = null;
           if(authStatus){
             userId = window.gapi.auth2.getAuthInstance().currentUser.get().getId();
-            onSignIn(userId);
+            userName = window.gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName();
+            onSignIn(userId, userName);
           } else {
             onSignOut();
           };
@@ -93,7 +96,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSignIn: (id) => dispatch(signIn(id)),
+  onSignIn: (id, userName) => dispatch(signIn(id, userName)),
   onSignOut: () => dispatch(signOut())
 });
 

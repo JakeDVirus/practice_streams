@@ -1,8 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Router , Route, Switch } from "react-router-dom";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MuiContainer from '@material-ui/core/Container';
+
+import history from '../history';
 
 import Header from './Header';
 import StreamCreate from './streams/StreamCreate';
@@ -15,18 +17,18 @@ const App = () => {
   return (
     <div>
       <CssBaseline />
-      <BrowserRouter>
+      <Router history={history}>
         <Header />
         <MuiContainer maxWidth="xl">
           <Switch>
             <Route path="/" exact component={StreamList}/>
             <Route path="/streams/new" component={StreamCreate}/>
-            <Route path="/streams/edit" component={StreamEdit}/>
-            <Route path="/streams/delete" component={StreamDelete}/>
-            <Route path="/streams/show" component={StreamShow}/>
+            <Route path="/streams/edit/:id" component={StreamEdit}/>
+            <Route path="/streams/delete/:id" component={StreamDelete}/>
+            <Route path="/streams/:id" component={StreamShow}/>
           </Switch>
         </MuiContainer>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 };

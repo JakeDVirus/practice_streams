@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 //IMPORT-- Exclusive addition requirement
-import GoogleAuth from '../GoogleAuth';
+import GoogleAuth from '../../GoogleAuth';
 
 const useStyles = makeStyles((theme) => ({
   list: {

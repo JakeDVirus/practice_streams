@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container';
 import DrawerMUI from './DrawerMUI';
 
 //IMPORT Exclusive addition requirement
-import GoogleAuth from '../GoogleAuth';
+import GoogleAuth from '../../GoogleAuth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
